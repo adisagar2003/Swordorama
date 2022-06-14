@@ -1,8 +1,10 @@
 import React from 'react'
 import {BiMenu,BiChevronRightSquare} from 'react-icons/bi'
-import { useState } from 'react'
+import { useState } from 'react';
+import {useMoralis} from 'react-moralis';
 
 function Navbar(props) {
+  const { authenticate, isAuthenticated, isAuthenticating, user, account, logout,login } = useMoralis();
   const [hamburgerOpen,setHamburgerOpen] = useState(true)
   return (
     <div class='h-3 bg-gray-900 overflow-hidden'>
@@ -20,10 +22,12 @@ function Navbar(props) {
       
         <ul class="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
           <li><a class="hover:text-gray-200" href="#">Home</a></li>
+          {user? <a class="hover:text-gray-200" href="#" onClick={logout}>Logout</a>:<a href="#" class='hidden  ' onClick={login}>Sign In </a> }
           <li><a class="hover:text-gray-200" href="#">Catagory</a></li>
           <li><a class="hover:text-gray-200" href="#">Collections</a></li>
           <li><a class="hover:text-gray-200" href="#">Contact Us</a></li>
         </ul>
+      
       
         <div class=" items-center space-x-3 left-10   items-center">
         

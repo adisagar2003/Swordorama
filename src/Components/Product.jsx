@@ -1,4 +1,5 @@
 import React from 'react'
+
 const swords=[{
     "name":"Z-Nemesis",
     "type":"Dark",
