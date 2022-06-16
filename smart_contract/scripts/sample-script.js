@@ -1,10 +1,13 @@
 // We require the Hardhat Runtime Environment explicitly here. This is optional
 // but useful for running the script in a standalone fashion through `node <script>`.
 //
+const chai = require('chai')
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
+const { ethers } = require("hardhat");
 const hre = require("hardhat");
 
+var expect = chai.expect;
 async function main() {
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -14,11 +17,20 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Greeter = await hre.ethers.getContractFactory("Swordorama");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
+  const Greeter = await hre.ethers.getContractFactory("Swords");
+  const greeter = await Greeter.deploy();
 
   await greeter.deployed();
-  
+  const reciept='0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc'
+  const metadataURI='cid/test.png'
+  let balance = await greeter.balanceOf(reciept);
+expect(balance).to.equal(0)
+  const newlyMintedToken = await greeter.safeMint(reciept,{value: ethers.utils.parseEther('0.05')});
+  await newlyMintedToken.wait();
+  balance = await greeter.balanceOf(reciept)
+  expect(balance).to.equal(1);
+ 
+
 
   console.log("Greeter deployed to:", greeter.address);
 }
